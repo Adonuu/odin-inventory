@@ -1,52 +1,62 @@
 const db = require("../database/queries");
 
-async function getCategories() {
+async function getCategories(req, res) {
     try {
         const categories = await db.getCategories();
-        return categories;
+        res.status(200).json(categories);
     } catch (err) {
-        throw new Error("Failed to fetch categories");
+        console.error("Error fetching categories:", err);
+        res.status(500).json({ error: "Failed to fetch categories" });
     }
 }
 
-async function createCategory(name) {
+async function createCategory(req, res) {
+    const { name } = req.body;
     if (!name) {
-        throw new Error("Category name is required");
+        return res.status(400).json({ error: "Category name is required" });
     }
 
     try {
         const newCategory = await db.createCategory(name);
-        return newCategory;
+        res.status(201).json(newCategory);
     } catch (err) {
-        throw new Error("Failed to create category");
+        console.error("Error creating category:", err);
+        res.status(500).json({ error: "Failed to create category" });
     }
 }
 
-async function updateCategory(id, name) {
+async function updateCategory(req, res) {
+    const { id } = req.params;
+    const { name } = req.body;
+
     if (!name) {
-        throw new Error("Category name is required");
+        return res.status(400).json({ error: "Category name is required" });
     }
 
     try {
         const updatedCategory = await db.updateCategory(id, name);
         if (!updatedCategory) {
-            throw new Error("Category not found");
+            return res.status(404).json({ error: "Category not found" });
         }
-        return updatedCategory;
+        res.status(200).json(updatedCategory);
     } catch (err) {
-        throw new Error("Failed to update category");
+        console.error("Error updating category:", err);
+        res.status(500).json({ error: "Failed to update category" });
     }
 }
 
-async function deleteCategory(id) {
+async function deleteCategory(req, res) {
+    const { id } = req.params;
+
     try {
         const deletedCategory = await db.deleteCategory(id);
         if (!deletedCategory) {
-            throw new Error("Category not found");
+            return res.status(404).json({ error: "Category not found" });
         }
-        return deletedCategory;
+        res.status(200).json(deletedCategory);
     } catch (err) {
-        throw new Error("Failed to delete category");
+        console.error("Error deleting category:", err);
+        res.status(500).json({ error: "Failed to delete category" });
     }
 }
 

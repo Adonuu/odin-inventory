@@ -1,52 +1,63 @@
+// controllers/brandController.js
 const db = require("../database/queries");
 
-async function getBrands() {
+async function getBrands(req, res) {
     try {
         const brands = await db.getBrands();
-        return brands;
+        res.status(200).json(brands);
     } catch (err) {
-        throw new Error("Failed to fetch brands");
+        console.error("Error fetching brands:", err);
+        res.status(500).json({ error: "Failed to fetch brands" });
     }
 }
 
-async function createBrand(name) {
+async function createBrand(req, res) {
+    const { name } = req.body;
     if (!name) {
-        throw new Error("Category name is required");
+        return res.status(400).json({ error: "Brand name is required" });
     }
 
     try {
         const newBrand = await db.createBrand(name);
-        return newBrand;
+        res.status(201).json(newBrand);
     } catch (err) {
-        throw new Error("Failed to create brand");
+        console.error("Error creating brand:", err);
+        res.status(500).json({ error: "Failed to create brand" });
     }
 }
 
-async function updateBrand(id, name) {
+async function updateBrand(req, res) {
+    const { id } = req.params;
+    const { name } = req.body;
+
     if (!name) {
-        throw new Error("Brand name is required");
+        return res.status(400).json({ error: "Brand name is required" });
     }
 
     try {
         const updatedBrand = await db.updateBrand(id, name);
         if (!updatedBrand) {
-            throw new Error("Brand not found");
+            return res.status(404).json({ error: "Brand not found" });
         }
-        return updatedBrand;
+        res.status(200).json(updatedBrand);
     } catch (err) {
-        throw new Error("Failed to update brand");
+        console.error("Error updating brand:", err);
+        res.status(500).json({ error: "Failed to update brand" });
     }
 }
 
-async function deleteBrand(id) {
+async function deleteBrand(req, res) {
+    const { id } = req.params;
+
     try {
-        const deletedCategory = await db.deleteBrand(id);
+        const deletedBrand = await db.deleteBrand(id);
         if (!deletedBrand) {
-            throw new Error("Brand not found");
+            return res.status(404).json({ error: "Brand not found" });
         }
-        return deletedBrand;
+        res.status(200).json(deletedBrand);
     } catch (err) {
-        throw new Error("Failed to delete brand");
+        console.error("Error deleting brand:", err);
+        res.status(500).json({ error: "Failed to delete brand" });
     }
 }
 
