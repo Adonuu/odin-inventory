@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Inventory</h1>
+    <a href="/inventory/new">Add New Item</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Brand</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% inventory.forEach(item => { %>
+                <tr>
+                    <td><%= item.id %></td>
+                    <td><%= item.inventory_name %></td>
+                    <td><%= item.quantity %></td>
+                    <td><%= item.brand_name %></td>
+                    <td><%= item.category_name %></td>
+                    <td>
+                        <a href="/inventory/edit/<%= item.id %>">Edit</a> |
+                        <a href="/inventory/delete/<%= item.id %>">Delete</a>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>

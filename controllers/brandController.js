@@ -4,7 +4,7 @@ const db = require("../database/queries");
 async function getBrands(req, res) {
     try {
         const brands = await db.getBrands();
-        res.status(200).json(brands);
+        res.render("brands", { brands });
     } catch (err) {
         console.error("Error fetching brands:", err);
         res.status(500).json({ error: "Failed to fetch brands" });

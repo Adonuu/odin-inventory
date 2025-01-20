@@ -3,7 +3,7 @@ const db = require("../database/queries");
 async function getCategories(req, res) {
     try {
         const categories = await db.getCategories();
-        res.status(200).json(categories);
+        res.render("categories", { categories });
     } catch (err) {
         console.error("Error fetching categories:", err);
         res.status(500).json({ error: "Failed to fetch categories" });

@@ -1,52 +1,62 @@
 const db = require("../database/queries");
 
-async function getInventory() {
+async function getInventory(req, res) {
     try {
-        const inventoryItems = await db.getInventory();
-        return inventoryItems;
+        const inventory = await db.getInventory();
+        res.render("inventory", { inventory });
     } catch (err) {
-        throw new Error("Failed to fetch inventory");
+        console.log(err);
+        res.status(500).send("Failed to fetch inventory");
     }
 }
 
-async function createInventory(name, quantity, brand, category) {
+async function createInventory(req, res) {
+    const { name, quantity, brand, category } = req.body;
+
     if (!name || !quantity || !brand || !category) {
-        throw new Error("Name, quantity, brand, and category are required");
+        return res.status(400).send("Name, quantity, brand, and category are required");
     }
 
     try {
         const newInventoryItem = await db.createInventory(name, quantity, brand, category);
-        return newInventoryItem;
+        res.redirect("/inventory");
     } catch (err) {
-        throw new Error("Failed to create inventory item");
+        console.log(err);
+        res.status(500).send("Failed to create inventory item");
     }
 }
 
-async function updateInventory(id, name, quantity, brand, category) {
+async function updateInventory(req, res) {
+    const { id, name, quantity, brand, category } = req.body;
+
     if (!name || !quantity || !brand || !category) {
-        throw new Error("Name, quantity, brand, and category are required");
+        return res.status(400).send("Name, quantity, brand, and category are required");
     }
 
     try {
         const updatedInventoryItem = await db.updateInventory(id, name, quantity, brand, category);
         if (!updatedInventoryItem) {
-            throw new Error("Inventory item not found");
+            return res.status(404).send("Inventory item not found");
         }
-        return updatedInventoryItem;
+        res.redirect("/inventory");
     } catch (err) {
-        throw new Error("Failed to update inventory item");
+        console.log(err);
+        res.status(500).send("Failed to update inventory item");
     }
 }
 
-async function deleteInventory(id) {
+async function deleteInventory(req, res) {
+    const { id } = req.params;
+
     try {
         const deletedInventoryItem = await db.deleteInventory(id);
         if (!deletedInventoryItem) {
-            throw new Error("Inventory item not found");
+            return res.status(404).send("Inventory item not found");
         }
-        return deletedInventoryItem;
+        res.redirect("/inventory");
     } catch (err) {
-        throw new Error("Failed to delete inventory item");
+        console.log(err);
+        res.status(500).send("Failed to delete inventory item");
     }
 }
 

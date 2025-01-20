@@ -3,8 +3,8 @@ const inventoryController = require("../controllers/inventoryController"); // Ad
 const inventoryRouter = Router();
 
 inventoryRouter.get("/", inventoryController.getInventory);
-inventoryRouter.post("/", inventoryController.createInventoryItem);
-inventoryRouter.put("/:id", inventoryController.updateInventoryItem);
-inventoryRouter.delete("/:id", inventoryController.deleteInventoryItem);
+inventoryRouter.post("/", inventoryController.createInventory);
+inventoryRouter.put("/:id", inventoryController.updateInventory);
+inventoryRouter.delete("/:id", inventoryController.deleteInventory);
 
 module.exports = inventoryRouter;
