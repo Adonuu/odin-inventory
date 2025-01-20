@@ -1,4 +1,4 @@
-import pool from "./pool.js";
+const pool = require("./pool");
 
 function createTableQuery(tableName, columns) {
     const sanitizedTableName = tableName.replace(/[^a-zA-Z0-9_]/g, ''); // Basic sanitization
