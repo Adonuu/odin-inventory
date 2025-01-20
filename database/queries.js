@@ -109,6 +109,25 @@ async function deleteCategory(id) {
     return result.rows[0];
 }
 
+async function getInventoryForEdit(id) {
+    const result = await pool.query(`
+        SELECT 
+            inventory.id,
+            inventory.name AS inventory_name,
+            inventory.quantity,
+            inventory.brand AS brand_id,
+            inventory.category AS category_id,
+            brands.name AS brand_name,
+            categories.name AS category_name
+        FROM inventory
+        JOIN brands ON inventory.brand = brands.id
+        JOIN categories ON inventory.category = categories.id
+        WHERE inventory.id = $1;
+    `, [id]);
+
+    return result.rows[0]; // Return the single row for editing
+}
+
 module.exports = {
     getInventory,
     getBrands,
@@ -121,5 +140,6 @@ module.exports = {
     updateCategory,
     deleteInventory,
     deleteBrand,
-    deleteCategory
+    deleteCategory,
+    getInventoryForEdit
 };

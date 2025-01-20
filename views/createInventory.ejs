@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Inventory Item</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Create New Inventory Item</h1>
+    <form action="/inventory/new" method="POST">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter item name" required>
+        </div>
+
+        <div>
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" placeholder="Enter quantity" required>
+        </div>
+
+        <div>
+            <label for="brand">Brand:</label>
+            <select name="brand" id="brand" required>
+                <% brands.forEach(brand => { %>
+                    <option value="<%= brand.id %>"><%= brand.name %></option>
+                <% }); %>
+            </select>
+        </div>
+
+        <div>
+            <label for="category">Category:</label>
+            <select name="category" id="category" required>
+                <% categories.forEach(category => { %>
+                    <option value="<%= category.id %>"><%= category.name %></option>
+                <% }); %>
+            </select>
+        </div>
+
+        <button type="submit">Add Inventory Item</button>
+    </form>
+
+    <a href="/inventory">Back to Inventory List</a>
+</body>
+</html>

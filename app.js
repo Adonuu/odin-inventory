@@ -11,7 +11,7 @@ const categoryRouter = require("./routes/categoryRouter");
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
-app.use("/", inventoryRouter);
+app.use("/inventory", inventoryRouter);
 app.use("/brand", brandRouter);
 app.use("/category", categoryRouter);
 

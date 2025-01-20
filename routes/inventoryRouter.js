@@ -1,10 +1,12 @@
 const { Router } = require("express");
-const inventoryController = require("../controllers/inventoryController"); // Adjust path if needed
+const inventoryController = require("../controllers/inventoryController");
 const inventoryRouter = Router();
 
 inventoryRouter.get("/", inventoryController.getInventory);
-inventoryRouter.post("/", inventoryController.createInventory);
-inventoryRouter.put("/:id", inventoryController.updateInventory);
-inventoryRouter.delete("/:id", inventoryController.deleteInventory);
+inventoryRouter.get("/new", inventoryController.getCreateInventoryView);
+inventoryRouter.post("/new", inventoryController.createInventory);
+inventoryRouter.get("/edit/:id", inventoryController.getInventoryForEdit);
+inventoryRouter.post("/edit/:id", inventoryController.updateInventory);
+inventoryRouter.get("/delete/:id", inventoryController.deleteInventory);
 
 module.exports = inventoryRouter;
